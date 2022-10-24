@@ -104,7 +104,6 @@ pub fn derive_global_transform(
 mod test {
     use bevy::ecs::system::CommandQueue;
     use bevy::math::vec2;
-    use bevy::math::vec3;
     use bevy::prelude::*;
     use super::*;
 

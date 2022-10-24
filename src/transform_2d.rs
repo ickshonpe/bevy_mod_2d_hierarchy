@@ -134,6 +134,16 @@ impl Transform2d {
             scale
         }
     }
+
+    #[inline]
+    pub fn rotate(&mut self, radians: f32) {
+        self.rotation += radians;
+    }
+    
+    #[inline]
+    pub fn apply_scale(&mut self, scale_factor: f32) {
+        self.scale *= scale_factor;
+    }
 }
 
 impl Default for Transform2d {

@@ -1,42 +1,18 @@
-
-
 pub mod transform_2d;
 pub mod systems;
+mod bundles;
 
 use bevy::prelude::*;
-use bevy::transform::TransformSystem;
 use transform_2d::GlobalTransform2d;
 use transform_2d::Transform2d;
 
-#[derive(Bundle, Clone, Copy, Debug, Default)]
-pub struct Transform2dBundle {
-    pub local_2d: Transform2d,
-    pub global_2d: GlobalTransform2d,
-    pub global: GlobalTransform
+pub mod prelude {
+    pub use crate::transform_2d::Transform2d;
+    pub use crate::transform_2d::GlobalTransform2d;
+    pub use crate::Transform2dPlugin;
+    pub use crate::bundles::*;
 }
 
-impl Transform2dBundle {
-    pub const IDENTITY: Self = Transform2dBundle {
-        local_2d: Transform2d::IDENTITY,
-        global_2d: GlobalTransform2d::IDENTITY,
-        global: GlobalTransform::identity()
-    };
-
-    #[inline]
-    pub const fn from_transform(transform: Transform2d) -> Self {
-        Transform2dBundle {
-            local_2d: transform,
-            ..Self::IDENTITY
-        }
-    }
-}
-
-impl From<Transform2d> for Transform2dBundle {
-    #[inline]
-    fn from(transform: Transform2d) -> Self {
-        Self::from_transform(transform)
-    }
-}
 /// Label enum for the systems relating to transform propagation
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemLabel)]
 pub enum Transform2dSystem {
