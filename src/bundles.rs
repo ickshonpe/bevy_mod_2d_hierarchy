@@ -68,7 +68,7 @@ impl From<Transform2d> for Spatial2dBundle {
 pub struct SpriteBundle2 {
     pub sprite: Sprite,
     pub transform_2d: Transform2d,
-    pub global_transform_2d: Transform2d,
+    pub global_transform_2d: GlobalTransform2d,
     pub global_transform: GlobalTransform,
     pub texture: Handle<Image>,
     pub visibility: Visibility,
@@ -80,7 +80,7 @@ pub struct SpriteSheetBundle2 {
     pub sprite: TextureAtlasSprite,
     pub texture_atlas: Handle<TextureAtlas>,
     pub transform_2d: Transform2d,
-    pub global_transform_2d: Transform2d,
+    pub global_transform_2d: GlobalTransform2d,
     pub global_transform: GlobalTransform,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
@@ -90,7 +90,7 @@ pub struct SpriteSheetBundle2 {
 pub struct Text2dBundle2 {
     pub text: Text,
     pub transform_2d: Transform2d,
-    pub global_transform_2d: Transform2d,
+    pub global_transform_2d: GlobalTransform2d,
     pub global_transform: GlobalTransform,
     pub text_2d_size: Text2dSize,
     pub text_2d_bounds: Text2dBounds,
