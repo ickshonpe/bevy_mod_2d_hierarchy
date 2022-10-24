@@ -45,9 +45,9 @@ pub struct Spatial2dBundle {
 
 impl Spatial2dBundle {
     #[inline]
-    pub const fn from_transform(transform: Transform2d) -> Self {
+    pub const fn from_transform(transform_2d: Transform2d) -> Self {
         Self {
-            transform_2d: transform,
+            transform_2d,
             global_transform_2d: GlobalTransform2d::IDENTITY,
             global_transform: GlobalTransform::identity(),
             visibility: Visibility { is_visible: true },
@@ -58,8 +58,8 @@ impl Spatial2dBundle {
 
 impl From<Transform2d> for Spatial2dBundle {
     #[inline]
-    fn from(transform: Transform2d) -> Self {
-        Self::from_transform(transform)
+    fn from(transform_2d: Transform2d) -> Self {
+        Self::from_transform(transform_2d)
     }
 }
 
