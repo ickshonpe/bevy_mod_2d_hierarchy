@@ -105,6 +105,7 @@ mod test {
     use bevy::ecs::system::CommandQueue;
     use bevy::math::vec2;
     use bevy::prelude::*;
+    use bundles::Transform2dBundle;
     use super::*;
 
     #[derive(StageLabel)]
@@ -142,12 +143,12 @@ mod test {
 
         assert_eq!(
             *world.get::<GlobalTransform2d>(children[0]).unwrap(),
-            GlobalTransform2d::from_xyz(1.0, 0.0, 0.0) * Transform2d::from_xyz(0.0, 2.0, 0.0)
+            GlobalTransform2d(Transform2d::from_xyz(1.0, 0.0, 0.0).mul_transform(Transform2d::from_xyz(0.0, 2.0, 0.0)))
         );
 
         assert_eq!(
             *world.get::<GlobalTransform2d>(children[1]).unwrap(),
-            GlobalTransform2d::from_xyz(1.0, 0.0, 0.0) * Transform2d::from_xyz(0.0, 0.0, 3.0)
+            GlobalTransform2d(Transform2d::from_xyz(1.0, 0.0, 0.0).mul_transform(Transform2d::from_xyz(0.0, 0.0, 3.0)))
         );
     }
 
@@ -182,13 +183,13 @@ mod test {
         schedule.run(&mut world);
 
         assert_eq!(
-            *world.get::<GlobalTransform>(children[0]).unwrap(),
-            GlobalTransform2d::from_xyz(1.0, 0.0, 0.0) * Transform2d::from_xyz(0.0, 2.0, 0.0)
+            *world.get::<GlobalTransform2d>(children[0]).unwrap(),
+            GlobalTransform2d(GlobalTransform2d(Transform2d::from_xyz(1.0, 0.0, 0.0)).mul_transform(Transform2d::from_xyz(0.0, 2.0, 0.0)))
         );
 
         assert_eq!(
-            *world.get::<GlobalTransform>(children[1]).unwrap(),
-            GlobalTransform2d::from_xyz(1.0, 0.0, 0.0) * Transform2d::from_xyz(0.0, 0.0, 3.0)
+            *world.get::<GlobalTransform2d>(children[1]).unwrap(),
+            GlobalTransform2d(Transform2d::from_xyz(1.0, 0.0, 0.0)).mul_transform(Transform2d::from_xyz(0.0, 0.0, 3.0)).into()
         );
     }
 
@@ -307,7 +308,7 @@ mod test {
         // Note that at this point, the `GlobalTransform`s will not have updated yet, due to `Commands` delay
         app.update();
 
-        let mut state = app.world.query::<&GlobalTransform>();
+        let mut state = app.world.query::<&GlobalTransform2d>();
         for global in state.iter(&app.world) {
             assert_eq!(global, &GlobalTransform2d(Transform2d::from_translation(translation)));
         }

@@ -206,9 +206,7 @@ impl GlobalTransform2d {
     #[inline]
     pub fn scale(&self) -> f32 {
         self.transform().scale
-    }
-
-    
+    }    
 }
 
 impl std::fmt::Display for GlobalTransform2d {

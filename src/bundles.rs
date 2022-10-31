@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::render::texture::DEFAULT_IMAGE_HANDLE;
 use bevy::text::Text2dBounds;
 use bevy::text::Text2dSize;
 use crate::prelude::*;
@@ -64,7 +65,7 @@ impl From<Transform2d> for Spatial2dBundle {
 }
 
 
-#[derive(Bundle, Clone, Default)]
+#[derive(Bundle, Clone,)]
 pub struct SpriteBundle2 {
     pub sprite: Sprite,
     pub transform_2d: Transform2d,
@@ -73,6 +74,21 @@ pub struct SpriteBundle2 {
     pub texture: Handle<Image>,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
+}
+
+impl Default for SpriteBundle2 {
+    fn default() -> Self {
+        Self { 
+            sprite: Default::default(), 
+            transform_2d: Default::default(), 
+            global_transform_2d: Default::default(), 
+            global_transform: Default::default(), 
+            texture: DEFAULT_IMAGE_HANDLE.typed(),
+            visibility: 
+            Default::default(), 
+            computed_visibility: Default::default() 
+        }
+    }
 }
 
 #[derive(Bundle, Clone, Default)]
