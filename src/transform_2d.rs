@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::alt_systems::Transform2dPropagationDescriptor;
+
 #[derive(Clone, Copy, Debug, PartialEq, Reflect, Component)]
 #[reflect(Component, Default, PartialEq)]
 pub struct Transform2d {
@@ -207,6 +209,37 @@ impl GlobalTransform2d {
     pub fn scale(&self) -> f32 {
         self.transform().scale
     }    
+
+    #[inline]
+    #[must_use]
+    pub fn propagate_transform(&self, other: Transform2d, desc: Option<&Transform2dPropagationDescriptor>) -> Self {
+        if let Some(desc) = desc {   
+            Self(Transform2d {
+                translation: if desc.inherit_translation {
+                    self.mul_vec2(other.translation)
+                } else {
+                    other.translation
+                },
+                z: if desc.inherit_z {
+                    self.z + other.z
+                } else {
+                    other.z
+                },
+                rotation: if desc.inherit_rotation {
+                    self.rotation + other.rotation
+                } else {
+                    other.rotation
+                },
+                scale: if desc.inherit_scale {
+                    self.scale * other.scale
+                } else {
+                    other.scale
+                }
+            })
+        } else {
+            Self(self.mul_transform(other))
+        }
+    }
 }
 
 impl std::fmt::Display for GlobalTransform2d {

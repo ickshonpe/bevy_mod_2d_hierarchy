@@ -19,7 +19,7 @@ pub fn setup(
             custom_size: Some(vec2(1000., 1000.)),
             ..Default::default() 
         },
-        texture: asset_server.load("wall.png"),
+        //texture: asset_server.load("wall.png"),
         transform_2d: Transform2d::from_translation(map_translation).with_z(500.),
         ..Default::default()
     });

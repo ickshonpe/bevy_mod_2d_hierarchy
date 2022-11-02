@@ -1,6 +1,7 @@
 pub mod transform_2d;
 pub mod systems;
 mod bundles;
+pub mod alt_systems;
 
 use bevy::prelude::*;
 use transform_2d::GlobalTransform2d;
@@ -37,6 +38,33 @@ impl Plugin for Transform2dPlugin {
             .add_system_to_stage(
                 CoreStage::PostUpdate,
                 systems::transform_2d_propagate_system.label(Transform2dSystem::Transform2dPropagate),
+            )
+            .add_system_to_stage(
+                CoreStage::PostUpdate,
+                systems::derive_global_transform.label(Transform2dSystem::DeriveGlobalTransform),
+            );
+
+    }
+}
+
+
+/// The base plugin for handling [`Transform`] components
+#[derive(Default)]
+pub struct AltTransform2dPlugin;
+
+impl Plugin for AltTransform2dPlugin {
+    fn build(&self, app: &mut App) {
+        app
+            .register_type::<Transform2d>()
+            .register_type::<GlobalTransform2d>()
+            .register_type::<alt_systems::Transform2dPropagationDescriptor>()
+            .add_startup_system_to_stage(
+                StartupStage::PostStartup,
+                alt_systems::transform_2d_propagate_system.label(Transform2dSystem::Transform2dPropagate),
+            )
+            .add_system_to_stage(
+                CoreStage::PostUpdate,
+                alt_systems::transform_2d_propagate_system.label(Transform2dSystem::Transform2dPropagate),
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,

@@ -12,4 +12,5 @@ features = ["render", "bevy_asset"]
 
 [dev-dependencies]
 bevy = "0.8"
-bevy_despawn_with = "0.11.0"
+bevy_despawn_with = "0.12.0"
+stopwatch = "*"
