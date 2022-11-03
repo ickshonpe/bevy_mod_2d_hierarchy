@@ -1,7 +1,7 @@
-use std::f32::consts::PI;
 use bevy::prelude::*;
 use bevy::render::texture::ImageSettings;
 use bevy_mod_2d_hierarchy::prelude::*;
+use std::f32::consts::PI;
 
 #[derive(Component)]
 pub struct Center;
@@ -12,14 +12,11 @@ pub struct Red;
 #[derive(Component)]
 pub struct White;
 
-fn setup(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-) {
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn_bundle(Camera2dBundle::default());
     let s = 64f32;
-    let d = 3. * s * Vec2::X;                     
-    let n = 7;                      
+    let d = 3. * s * Vec2::X;
+    let n = 7;
     let center_id = commands
         .spawn_bundle(SpatialBundle2::default())
         .insert(Center)
@@ -40,8 +37,9 @@ fn setup(
             })
             .insert(White)
             .id();
-        let red_sprite_id = commands.spawn_bundle(SpriteBundle2 {
-                sprite: Sprite { 
+        let red_sprite_id = commands
+            .spawn_bundle(SpriteBundle2 {
+                sprite: Sprite {
                     color: Color::RED,
                     custom_size: Some(s * Vec2::ONE),
                     ..Default::default()
@@ -53,7 +51,9 @@ fn setup(
             })
             .insert(Red)
             .id();
-        commands.entity(center_id).push_children(&[sprite_id, red_sprite_id]);
+        commands
+            .entity(center_id)
+            .push_children(&[sprite_id, red_sprite_id]);
     }
 }
 
@@ -75,7 +75,7 @@ fn main() {
     App::new()
         .insert_resource(ImageSettings::default_nearest())
         .add_plugins(DefaultPlugins)
-        .add_plugin(Transform2Plugin)
+        .add_plugin(Hierarchy2dPlugin)
         .add_startup_system(setup)
         .add_system(update)
         .run();

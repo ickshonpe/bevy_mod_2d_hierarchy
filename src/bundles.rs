@@ -1,3 +1,5 @@
+use crate::prelude::*;
+use crate::transform2::Propagate;
 use bevy::prelude::*;
 use bevy::render::camera::CameraRenderGraph;
 use bevy::render::primitives::Frustum;
@@ -5,8 +7,6 @@ use bevy::render::texture::DEFAULT_IMAGE_HANDLE;
 use bevy::render::view::VisibleEntities;
 use bevy::text::Text2dBounds;
 use bevy::text::Text2dSize;
-use crate::prelude::*;
-use crate::transform2::Propagate;
 
 /// 2d transform components
 #[derive(Bundle, Clone, Debug, Default)]
@@ -51,7 +51,7 @@ pub struct SpatialBundle2 {
     pub global_transform: GlobalTransform,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
-    pub propagate: Propagate
+    pub propagate: Propagate,
 }
 
 impl SpatialBundle2 {
@@ -63,7 +63,7 @@ impl SpatialBundle2 {
             global_transform: GlobalTransform::identity(),
             visibility: Visibility { is_visible: true },
             computed_visibility: ComputedVisibility::not_visible(),
-            propagate: Propagate::ALL
+            propagate: Propagate::ALL,
         }
     }
 }
@@ -76,7 +76,7 @@ impl From<Transform2> for SpatialBundle2 {
 }
 
 /// SpriteBundle with a 2d transform
-#[derive(Bundle, Clone,)]
+#[derive(Bundle, Clone)]
 pub struct SpriteBundle2 {
     pub sprite: Sprite,
     pub transform2: Transform2,
@@ -85,20 +85,20 @@ pub struct SpriteBundle2 {
     pub texture: Handle<Image>,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
-    pub propagate: Propagate
+    pub propagate: Propagate,
 }
 
 impl Default for SpriteBundle2 {
     fn default() -> Self {
-        Self { 
-            sprite: Default::default(), 
-            transform2: Default::default(), 
-            global_transform2: Default::default(), 
-            global_transform: Default::default(), 
+        Self {
+            sprite: Default::default(),
+            transform2: Default::default(),
+            global_transform2: Default::default(),
+            global_transform: Default::default(),
             texture: DEFAULT_IMAGE_HANDLE.typed(),
-            visibility: Default::default(), 
+            visibility: Default::default(),
             computed_visibility: Default::default(),
-            propagate: Propagate::ALL
+            propagate: Propagate::ALL,
         }
     }
 }
@@ -145,13 +145,11 @@ pub struct Camera2dBundle2 {
     pub camera_2d: Camera2d,
 }
 
-
 impl Default for Camera2dBundle2 {
     fn default() -> Self {
         Self::new_with_far(1000.0)
     }
 }
-
 
 impl Camera2dBundle2 {
     /// Create an orthographic projection camera with a custom `Z` position.

@@ -1,7 +1,7 @@
+use bevy::math::vec2;
 use bevy::math::Affine3A;
 use bevy::math::Mat3A;
 use bevy::math::Vec3A;
-use bevy::math::vec2;
 use bevy::prelude::*;
 
 #[derive(Component, Clone, Copy, Debug, Eq, PartialEq, Reflect)]
@@ -30,7 +30,7 @@ impl Propagate {
 }
 
 impl std::ops::BitAnd for Propagate {
-    type Output=Propagate;
+    type Output = Propagate;
 
     fn bitand(self, rhs: Self) -> Self::Output {
         Self(self.0 & rhs.0)
@@ -44,7 +44,7 @@ impl std::ops::BitAndAssign for Propagate {
     }
 }
 impl std::ops::BitOr for Propagate {
-    type Output=Propagate;
+    type Output = Propagate;
 
     #[inline]
     #[must_use]
@@ -190,7 +190,7 @@ impl Transform2 {
             translation,
             depth,
             rotation,
-            scale
+            scale,
         }
     }
 
@@ -215,7 +215,7 @@ impl Transform2 {
 
     #[inline]
     #[must_use]
-    pub fn to_affine(&self) -> Affine3A {        
+    pub fn to_affine(&self) -> Affine3A {
         let (sin, cos) = self.rotation.sin_cos();
         let sin = self.scale * sin;
         let cos = self.scale * cos;
@@ -225,7 +225,7 @@ impl Transform2 {
                 y_axis: Vec3A::new(-sin, cos, 0.),
                 z_axis: Vec3A::new(0., 0., 1.0),
             },
-            translation: Vec3A::new(self.translation.x, self.translation.y, self.depth)
+            translation: Vec3A::new(self.translation.x, self.translation.y, self.depth),
         }
     }
 
@@ -249,7 +249,7 @@ impl Transform2 {
     pub fn right(&self) -> Vec2 {
         self.rotation_matrix() * Vec2::X
     }
-    
+
     /// Get the unit vector in the local left direction.
     #[inline]
     #[must_use]
@@ -273,9 +273,6 @@ impl Transform2 {
         self.translate_around(point, rotation);
         self.rotate(rotation);
     }
-
-
-
 }
 
 impl Default for Transform2 {
@@ -289,11 +286,7 @@ impl std::fmt::Display for Transform2 {
         write!(
             f,
             "{{ T[{}, {}], Z[{}], R[{}], S[{}] }}",
-            self.translation.x,
-            self.translation.y,
-            self.depth,
-            self.rotation,
-            self.scale,
+            self.translation.x, self.translation.y, self.depth, self.rotation, self.scale,
         )
     }
 }
@@ -307,7 +300,6 @@ impl From<Transform2> for Transform {
         }
     }
 }
-
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Reflect, Component)]
 #[reflect(Component, Default, PartialEq)]
@@ -338,30 +330,30 @@ impl GlobalTransform2 {
     #[inline]
     pub fn scale(&self) -> f32 {
         self.transform().scale
-    }    
+    }
 
     #[must_use]
     #[inline]
     pub fn depth(&self) -> f32 {
         self.transform().depth
-    }    
+    }
 
     #[must_use]
     #[inline]
     pub fn mul_transform(&self, transform: Transform2) -> Transform2 {
         self.0.mul_transform(transform)
-    }  
+    }
 
     #[must_use]
     #[inline]
     pub fn mul_vec2(&self, value: Vec2) -> Vec2 {
         self.0.mul_vec2(value)
-    }  
+    }
 
     #[inline]
     #[must_use]
     pub(crate) fn propagate_transform(&self, other: Transform2, propagation: Propagate) -> Self {
-        if propagation == Propagate::ALL {   
+        if propagation == Propagate::ALL {
             Self(self.mul_transform(other))
         } else {
             Self(Transform2 {
@@ -370,7 +362,7 @@ impl GlobalTransform2 {
                 } else {
                     other.translation
                 },
-                depth: if propagation.inherits(Propagate::DEPTH)  {
+                depth: if propagation.inherits(Propagate::DEPTH) {
                     self.depth() + other.depth
                 } else {
                     other.depth
@@ -384,9 +376,9 @@ impl GlobalTransform2 {
                     self.scale() * other.scale
                 } else {
                     other.scale
-                }
+                },
             })
-        } 
+        }
     }
 }
 
@@ -423,7 +415,6 @@ mod test {
 
     use super::*;
 
-    
     #[test]
     fn transform2_vs_transform() {
         let transform2 = Transform2 {
@@ -433,7 +424,7 @@ mod test {
             scale: 4.,
         };
         let transform = Transform::from(transform2);
-        
+
         let vs = [
             vec2(100., -100.),
             vec2(10., -100.),
@@ -444,7 +435,7 @@ mod test {
         ];
 
         let e = 0.001;
-        
+
         for &v in &vs {
             let a = transform2.mul_vec2(v);
             let b = transform.mul_vec3(v.extend(0.0));
@@ -475,7 +466,6 @@ mod test {
             assert!((a.x - b.x).abs() < e);
             assert!((a.y - b.y).abs() < e);
         }
-
     }
 
     #[test]
@@ -483,7 +473,7 @@ mod test {
         for i in 1..=15 {
             assert!(!Propagate::NOTHING.inherits(Propagate(i)));
         }
-        
+
         for i in 1..=15 {
             assert!(Propagate::ALL.inherits(Propagate(i)));
         }

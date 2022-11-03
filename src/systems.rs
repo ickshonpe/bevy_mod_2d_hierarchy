@@ -1,8 +1,9 @@
-use bevy::prelude::*;
 use super::*;
+use bevy::prelude::*;
 
 /// Update [`GlobalTransform2`] component of entities based on entity hierarchy and
 /// [`Transform2`] component.
+#[allow(clippy::type_complexity)]
 pub fn transform_2d_propagate_system(
     mut root_query: Query<
         (
@@ -12,9 +13,7 @@ pub fn transform_2d_propagate_system(
             &mut GlobalTransform2,
             Entity,
         ),
-        (
-            Without<Parent>,
-        )
+        (Without<Parent>,),
     >,
     mut transform_query: Query<(
         &Transform2,
@@ -49,6 +48,7 @@ pub fn transform_2d_propagate_system(
     }
 }
 
+#[allow(clippy::type_complexity)]
 fn propagate_recursive(
     parent: &GlobalTransform2,
     transform_query: &mut Query<(
@@ -91,13 +91,14 @@ fn propagate_recursive(
     Ok(())
 }
 
+#[allow(clippy::type_complexity)]
 pub fn derive_global_transform(
-    mut query: Query<(&GlobalTransform2, &mut GlobalTransform), (Changed<GlobalTransform2>, Without<Transform>)>,
+    mut query: Query<
+        (&GlobalTransform2, &mut GlobalTransform),
+        (Changed<GlobalTransform2>, Without<Transform>),
+    >,
 ) {
-    query.for_each_mut(|(
-        global_transform_2d,
-        mut global_transform
-    )| {
+    query.for_each_mut(|(global_transform_2d, mut global_transform)| {
         *global_transform = (*global_transform_2d).into();
     });
 }
