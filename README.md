@@ -4,14 +4,14 @@
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](https://github.com/ickshonpe/bevy_mod_2d_hierarchy)
 [![crates.io](https://img.shields.io/crates/d/bevy_mod_2d_hierarchy)](https://crates.io/crates/bevy_mod_2d_hierarchy)
 
-Bevy plugin for more ergonomic 2d.
+Bevy plugin for more ergonomic 2D.
 
-* Full 2d transform hierarchy.
-* 2d transform components.
-* Independent of the Bevy 3d transform hierarcy, can use both in the same project.
+* Full 2D transform hierarchy.
+* Specialized 2D transform components.
+* Independent of the Bevy 3D transform hierarcy, can use both in the same project.
 * Compatible with existing plugins as long as they only query for `GlobalTransform` and not `Transform`.
-* Control 2d transform propagation behaviour.
-* Performance about the same as bevy_transform.
+* Control 2D transform propagation behaviour.
+* Performs about the same as bevy_transform.
 * No quaternions.
 * Supports Bevy 0.8
 
