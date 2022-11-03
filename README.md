@@ -4,7 +4,7 @@
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](https://github.com/ickshonpe/bevy_mod_2d_hierarchy)
 [![crates.io](https://img.shields.io/crates/d/bevy_mod_2d_hierarchy)](https://crates.io/crates/bevy_mod_2d_hierarchy)
 
-Bevy plugin for more ergonomic 2d development.
+Bevy plugin for more ergonomic 2d.
 
 * Full 2d transform hierarchy.
 * Independent of the Bevy 3d transform hierarcy, can use both in the same project.
@@ -34,7 +34,7 @@ fn main() {
 }
 ```
 
-Then draw some sprites 
+Then spawn some sprites 
 
 ```rust
 pub fn spawn(
