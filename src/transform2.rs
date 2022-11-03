@@ -137,7 +137,7 @@ impl Transform2 {
 
     #[inline]
     #[must_use]
-    pub const fn from_z(depth: f32) -> Self {
+    pub const fn from_depth(depth: f32) -> Self {
         Self {
             depth,
             ..Self::IDENTITY
