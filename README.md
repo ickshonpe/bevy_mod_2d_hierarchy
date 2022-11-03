@@ -7,9 +7,12 @@
 Bevy plugin for more ergonomic 2d.
 
 * Full 2d transform hierarchy.
+* 2d transform components.
 * Independent of the Bevy 3d transform hierarcy, can use both in the same project.
 * Compatible with existing plugins as long as they only query for `GlobalTransform` and not `Transform`.
 * Control 2d transform propagation behaviour.
+* Performance about the same as bevy_transform.
+* No quaternions.
 * Supports Bevy 0.8
 
 ## Usage
