@@ -6,12 +6,11 @@
 
 Bevy plugin for more ergonomic 2D.
 
-* Full 2D transform hierarchy.
-* Specialized 2D transform components.
-* Independent of the Bevy 3D transform hierarcy, can use both in the same project.
+* Specialized 2D transform and propagation systems.
+* Independent of the Bevy 3D transform, can use both in the same project.
 * Compatible with existing plugins as long as they only query for `GlobalTransform` and not `Transform`.
 * Control 2D transform propagation behaviour.
-* Performs about the same as bevy_transform.
+* Performance similar to the 3D Transform. The propagation control has a cost, but some operations cheaper in 2D.
 * No quaternions.
 * Supports Bevy 0.8
 
@@ -20,7 +19,7 @@ Bevy plugin for more ergonomic 2D.
 Add the dependency to your `Cargo.toml`
 ```toml
 [dependencies]
-bevy_mod_2d_hierarchy = "0.1"
+bevy_mod_2d_hierarchy = "0.2"
 ```
 
 Add the plugin to your Bevy App:
@@ -31,7 +30,7 @@ use bevy_mod_2d_hierarachy::prelude::*;
 fn main() {
     App::new()
     .add_plugins(DefaultPlugins)
-    .add_plugin(Hierarchy2dPlugin)
+    .add_plugin(Transform2dPlugin)
     // .. rest of systems etc
     .run();
 }

@@ -54,7 +54,7 @@ fn main() {
             ..Default::default()            
         })      
         .add_plugins(DefaultPlugins)
-        .add_plugin(Hierarchy2dPlugin)
+        .add_plugin(Transform2dPlugin)
         .add_plugin(LogDiagnosticsPlugin::default())
         .add_plugin(FrameTimeDiagnosticsPlugin::default())
         .add_startup_system(spawn)

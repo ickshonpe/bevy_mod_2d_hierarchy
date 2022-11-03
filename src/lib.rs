@@ -12,22 +12,22 @@ pub mod prelude {
     pub use crate::transform2::GlobalTransform2;
     pub use crate::transform2::Propagate;
     pub use crate::transform2::Transform2;
-    pub use crate::Hierarchy2dPlugin;
+    pub use crate::Transform2dPlugin;
 }
 
 /// Label enum for the systems relating to transform propagation
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemLabel)]
-pub enum Hierarchy2dSystem {
+pub enum Transform2dSystem {
     /// Propagates changes in transform to children's [`GlobalTransform`](crate::components::GlobalTransform)
-    Transform2Propagate,
+    PropagateTransform2,
     DeriveGlobalTransform,
 }
 
 /// The base plugin for handling [`Transform`] components
 #[derive(Default)]
-pub struct Hierarchy2dPlugin;
+pub struct Transform2dPlugin;
 
-impl Plugin for Hierarchy2dPlugin {
+impl Plugin for Transform2dPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<Transform2>()
             .register_type::<GlobalTransform2>()
@@ -35,16 +35,16 @@ impl Plugin for Hierarchy2dPlugin {
             .add_startup_system_to_stage(
                 StartupStage::PostStartup,
                 systems::transform_2d_propagate_system
-                    .label(Hierarchy2dSystem::Transform2Propagate),
+                    .label(Transform2dSystem::PropagateTransform2),
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,
                 systems::transform_2d_propagate_system
-                    .label(Hierarchy2dSystem::Transform2Propagate),
+                    .label(Transform2dSystem::PropagateTransform2),
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,
-                systems::derive_global_transform.label(Hierarchy2dSystem::DeriveGlobalTransform),
+                systems::derive_global_transform.label(Transform2dSystem::DeriveGlobalTransform),
             );
     }
 }

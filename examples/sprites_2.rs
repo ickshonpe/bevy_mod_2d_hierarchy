@@ -38,7 +38,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
 pub fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(Hierarchy2dPlugin)
+        .add_plugin(Transform2dPlugin)
         .add_startup_system(setup)
         .run();
 }

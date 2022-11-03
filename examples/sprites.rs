@@ -72,14 +72,14 @@ pub fn rotation(
         tf.rotate_z(angle);
     });
     tf2d.for_each_mut(|mut tf| {
-        tf.rotation += angle;
+        tf.rotate(angle);
     });
 }
 
 pub fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(Hierarchy2dPlugin)
+        .add_plugin(Transform2dPlugin)
         .add_startup_system(setup)
         .add_system(rotation)
         .run();

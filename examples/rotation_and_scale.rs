@@ -75,7 +75,7 @@ fn main() {
     App::new()
         .insert_resource(ImageSettings::default_nearest())
         .add_plugins(DefaultPlugins)
-        .add_plugin(Hierarchy2dPlugin)
+        .add_plugin(Transform2dPlugin)
         .add_startup_system(setup)
         .add_system(update)
         .run();
