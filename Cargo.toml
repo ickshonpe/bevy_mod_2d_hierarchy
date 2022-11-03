@@ -1,5 +1,5 @@
 [package]
-name = "bevy_2d_transform_hierarchy"
+name = "bevy_mod_2d_hierarchy"
 version = "0.1.0"
 edition = "2021"
 

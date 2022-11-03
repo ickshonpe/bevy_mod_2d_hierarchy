@@ -1,22 +1,23 @@
-pub mod transform_2d;
+pub mod transform2;
 pub mod systems;
-mod bundles;
-pub mod alt_systems;
+pub mod bundles;
 
 use bevy::prelude::*;
-use transform_2d::GlobalTransform2d;
-use transform_2d::Transform2d;
+use transform2::GlobalTransform2;
+use transform2::Propagate;
+use transform2::Transform2;
 
 pub mod prelude {
-    pub use crate::transform_2d::Transform2d;
-    pub use crate::transform_2d::GlobalTransform2d;
-    pub use crate::Transform2dPlugin;
+    pub use crate::transform2::Propagate;
+    pub use crate::transform2::Transform2;
+    pub use crate::transform2::GlobalTransform2;
+    pub use crate::Transform2Plugin;
     pub use crate::bundles::*;
 }
 
 /// Label enum for the systems relating to transform propagation
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemLabel)]
-pub enum Transform2dSystem {
+pub enum Transform2System {
     /// Propagates changes in transform to children's [`GlobalTransform`](crate::components::GlobalTransform)
     Transform2dPropagate,
     DeriveGlobalTransform,
@@ -24,51 +25,25 @@ pub enum Transform2dSystem {
 
 /// The base plugin for handling [`Transform`] components
 #[derive(Default)]
-pub struct Transform2dPlugin;
+pub struct Transform2Plugin;
 
-impl Plugin for Transform2dPlugin {
+impl Plugin for Transform2Plugin {
     fn build(&self, app: &mut App) {
         app
-            .register_type::<Transform2d>()
-            .register_type::<GlobalTransform2d>()
+            .register_type::<Transform2>()
+            .register_type::<GlobalTransform2>()
+            .register_type::<Propagate>()
             .add_startup_system_to_stage(
                 StartupStage::PostStartup,
-                systems::transform_2d_propagate_system.label(Transform2dSystem::Transform2dPropagate),
+                systems::transform_2d_propagate_system.label(Transform2System::Transform2dPropagate),
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,
-                systems::transform_2d_propagate_system.label(Transform2dSystem::Transform2dPropagate),
+                systems::transform_2d_propagate_system.label(Transform2System::Transform2dPropagate),
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,
-                systems::derive_global_transform.label(Transform2dSystem::DeriveGlobalTransform),
-            );
-
-    }
-}
-
-
-/// The base plugin for handling [`Transform`] components
-#[derive(Default)]
-pub struct AltTransform2dPlugin;
-
-impl Plugin for AltTransform2dPlugin {
-    fn build(&self, app: &mut App) {
-        app
-            .register_type::<Transform2d>()
-            .register_type::<GlobalTransform2d>()
-            .register_type::<alt_systems::Transform2dPropagationDescriptor>()
-            .add_startup_system_to_stage(
-                StartupStage::PostStartup,
-                alt_systems::transform_2d_propagate_system.label(Transform2dSystem::Transform2dPropagate),
-            )
-            .add_system_to_stage(
-                CoreStage::PostUpdate,
-                alt_systems::transform_2d_propagate_system.label(Transform2dSystem::Transform2dPropagate),
-            )
-            .add_system_to_stage(
-                CoreStage::PostUpdate,
-                systems::derive_global_transform.label(Transform2dSystem::DeriveGlobalTransform),
+                systems::derive_global_transform.label(Transform2System::DeriveGlobalTransform),
             );
 
     }

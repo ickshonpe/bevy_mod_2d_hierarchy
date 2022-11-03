@@ -3,15 +3,13 @@ use std::f32::consts::PI;
 use bevy::math::vec2;
 use bevy::math::vec3;
 use bevy::prelude::*;
-use bevy_2d_transform_hierarchy::Transform2dPlugin;
-use bevy_2d_transform_hierarchy::transform_2d::GlobalTransform2d;
-use bevy_2d_transform_hierarchy::transform_2d::Transform2d;
+use bevy_mod_2d_hierarchy::prelude::*;
 
 pub fn setup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
-    commands.spawn_bundle(Camera2dBundle::default());
+    commands.spawn_bundle(Camera2dBundle2::default());
     let image_handle: Handle<Image> = asset_server.load("arrow.png");
     let sprite = Sprite {
         custom_size: Some(vec2(30.0, 40.0)),
@@ -20,26 +18,28 @@ pub fn setup(
     };
     commands.spawn_bundle((
         sprite.clone(),
-        Transform2d::from_xy(-100., 0.),
+        Transform2::from_xy(-100., 0.),
         image_handle.clone(),
-        GlobalTransform2d::default(),
+        GlobalTransform2::default(),
         GlobalTransform::default(),
         Visibility::default(),
         ComputedVisibility::default(),
+        Propagate::ALL,
     ))
     .with_children(|builder| {
         builder.spawn_bundle((
             sprite.clone(),
-            Transform2d {
+            Transform2 {
                 rotation: PI / 4.,
                 scale: 2.0,
                 ..Default::default()
             },
             image_handle.clone(),
-            GlobalTransform2d::default(),
+            GlobalTransform2::default(),
             GlobalTransform::default(),
             Visibility::default(),
             ComputedVisibility::default(),
+            Propagate::ALL,
         ));
     });
 
@@ -66,7 +66,7 @@ pub fn setup(
 pub fn rotation( 
     time: Res<Time>,
     mut tf: Query<&mut Transform, (With<Sprite>, With<Children>)>,
-    mut tf2d: Query<&mut Transform2d, (With<Sprite>, With<Children>)>,
+    mut tf2d: Query<&mut Transform2, (With<Sprite>, With<Children>)>,
 ) {
     let angle = 0.5 * time.delta_seconds();
     tf.for_each_mut(|mut tf| {
@@ -80,7 +80,7 @@ pub fn rotation(
 pub fn main() {
     App::new()
     .add_plugins(DefaultPlugins)
-    .add_plugin(Transform2dPlugin)
+    .add_plugin(Transform2Plugin)
     .add_startup_system(setup)
     .add_system(rotation)
     .run();
