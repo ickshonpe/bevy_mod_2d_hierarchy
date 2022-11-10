@@ -4,13 +4,13 @@ pub mod transform2;
 
 use bevy::prelude::*;
 use transform2::GlobalTransform2;
-use transform2::Propagate;
+use transform2::PropagateTransform2;
 use transform2::Transform2;
 
 pub mod prelude {
     pub use crate::bundles::*;
     pub use crate::transform2::GlobalTransform2;
-    pub use crate::transform2::Propagate;
+    pub use crate::transform2::PropagateTransform2;
     pub use crate::transform2::Transform2;
     pub use crate::Transform2dPlugin;
 }
@@ -31,7 +31,7 @@ impl Plugin for Transform2dPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<Transform2>()
             .register_type::<GlobalTransform2>()
-            .register_type::<Propagate>()
+            .register_type::<PropagateTransform2>()
             .add_startup_system_to_stage(
                 StartupStage::PostStartup,
                 systems::transform_2d_propagate_system

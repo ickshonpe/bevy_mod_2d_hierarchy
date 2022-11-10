@@ -46,7 +46,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 },
                 texture: asset_server.load("sprite.png"),
                 transform2: Transform2::from_translation(translation).with_depth(i as f32),
-                propagate: Propagate::TRANSLATION,
+                propagate: PropagateTransform2::TRANSLATION,
                 ..Default::default()
             })
             .insert(Red)

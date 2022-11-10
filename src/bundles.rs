@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use crate::transform2::Propagate;
+use crate::transform2::PropagateTransform2;
 use bevy::prelude::*;
 use bevy::render::camera::CameraRenderGraph;
 use bevy::render::primitives::Frustum;
@@ -16,7 +16,7 @@ pub struct TransformBundle2 {
     /// not required but probably going to want to extract for rendering
     /// the derive_global_transform system is inexpensive
     pub global_transform: GlobalTransform,
-    pub propagate: Propagate,
+    pub propagate: PropagateTransform2,
 }
 
 impl TransformBundle2 {
@@ -24,7 +24,7 @@ impl TransformBundle2 {
         transform_2d: Transform2::IDENTITY,
         global_transform_2d: GlobalTransform2::IDENTITY,
         global_transform: GlobalTransform::identity(),
-        propagate: Propagate::ALL,
+        propagate: PropagateTransform2::ALL,
     };
 
     #[inline]
@@ -51,7 +51,7 @@ pub struct SpatialBundle2 {
     pub global_transform: GlobalTransform,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
-    pub propagate: Propagate,
+    pub propagate: PropagateTransform2,
 }
 
 impl SpatialBundle2 {
@@ -63,7 +63,7 @@ impl SpatialBundle2 {
             global_transform: GlobalTransform::identity(),
             visibility: Visibility { is_visible: true },
             computed_visibility: ComputedVisibility::not_visible(),
-            propagate: Propagate::ALL,
+            propagate: PropagateTransform2::ALL,
         }
     }
 }
@@ -85,7 +85,7 @@ pub struct SpriteBundle2 {
     pub texture: Handle<Image>,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
-    pub propagate: Propagate,
+    pub propagate: PropagateTransform2,
 }
 
 impl Default for SpriteBundle2 {
@@ -98,7 +98,7 @@ impl Default for SpriteBundle2 {
             texture: DEFAULT_IMAGE_HANDLE.typed(),
             visibility: Default::default(),
             computed_visibility: Default::default(),
-            propagate: Propagate::ALL,
+            propagate: PropagateTransform2::ALL,
         }
     }
 }
@@ -113,7 +113,7 @@ pub struct SpriteSheetBundle2 {
     pub global_transform: GlobalTransform,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
-    pub propagate: Propagate,
+    pub propagate: PropagateTransform2,
 }
 
 /// Text2dBundle with 2d transform
@@ -127,7 +127,7 @@ pub struct Text2dBundle2 {
     pub text_2d_bounds: Text2dBounds,
     pub visibility: Visibility,
     pub computed_visibility: ComputedVisibility,
-    pub propagate: Propagate,
+    pub propagate: PropagateTransform2,
 }
 
 /// Camera2dBundle with 2d transform
@@ -140,7 +140,7 @@ pub struct Camera2dBundle2 {
     pub frustum: Frustum,
     pub transform2: Transform2,
     pub global_transform2: GlobalTransform2,
-    pub propagate: Propagate,
+    pub propagate: PropagateTransform2,
     pub global_transform: GlobalTransform,
     pub camera_2d: Camera2d,
 }

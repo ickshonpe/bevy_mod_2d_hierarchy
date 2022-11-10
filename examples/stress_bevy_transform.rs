@@ -28,31 +28,24 @@ pub fn spawn(mut commands: Commands, asset_server: Res<AssetServer>) {
     }
 }
 
-pub fn update(
-    time: Res<Time>,
-    mut query: Query<&mut Transform>,
-) {
-    query.for_each_mut(|mut transform| 
+pub fn update(time: Res<Time>, mut query: Query<&mut Transform>) {
+    query.for_each_mut(|mut transform| {
         transform.rotate(Quat::from_rotation_z(time.delta_seconds()))
-    );
+    });
 }
 
-pub fn update_2(
-    time: Res<Time>,
-    mut query: Query<&mut Transform, With<Parent>>,
-) {
-    query.for_each_mut(|mut transform| 
+pub fn update_2(time: Res<Time>, mut query: Query<&mut Transform, With<Parent>>) {
+    query.for_each_mut(|mut transform| {
         transform.rotate(Quat::from_rotation_z(time.delta_seconds()))
-    );
+    });
 }
-
 
 fn main() {
     App::new()
         .insert_resource(WindowDescriptor {
             present_mode: bevy::window::PresentMode::Immediate,
             ..Default::default()
-        })      
+        })
         .add_plugins(DefaultPlugins)
         .add_plugin(LogDiagnosticsPlugin::default())
         .add_plugin(FrameTimeDiagnosticsPlugin::default())

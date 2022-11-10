@@ -6,15 +6,15 @@ use bevy::prelude::*;
 
 #[derive(Component, Clone, Copy, Debug, Eq, PartialEq, Reflect)]
 #[reflect(Component, Default, PartialEq)]
-pub struct Propagate(pub u8);
+pub struct PropagateTransform2(pub u8);
 
-impl Default for Propagate {
+impl Default for PropagateTransform2 {
     fn default() -> Self {
         Self::ALL
     }
 }
 
-impl Propagate {
+impl PropagateTransform2 {
     pub const NOTHING: Self = Self(0);
     pub const TRANSLATION: Self = Self(1);
     pub const DEPTH: Self = Self(2);
@@ -29,22 +29,22 @@ impl Propagate {
     }
 }
 
-impl std::ops::BitAnd for Propagate {
-    type Output = Propagate;
+impl std::ops::BitAnd for PropagateTransform2 {
+    type Output = PropagateTransform2;
 
     fn bitand(self, rhs: Self) -> Self::Output {
         Self(self.0 & rhs.0)
     }
 }
 
-impl std::ops::BitAndAssign for Propagate {
+impl std::ops::BitAndAssign for PropagateTransform2 {
     #[inline]
     fn bitand_assign(&mut self, rhs: Self) {
         self.0 &= rhs.0;
     }
 }
-impl std::ops::BitOr for Propagate {
-    type Output = Propagate;
+impl std::ops::BitOr for PropagateTransform2 {
+    type Output = PropagateTransform2;
 
     #[inline]
     #[must_use]
@@ -53,7 +53,7 @@ impl std::ops::BitOr for Propagate {
     }
 }
 
-impl std::ops::BitOrAssign for Propagate {
+impl std::ops::BitOrAssign for PropagateTransform2 {
     #[inline]
     fn bitor_assign(&mut self, rhs: Self) {
         self.0 |= rhs.0;
@@ -352,27 +352,31 @@ impl GlobalTransform2 {
 
     #[inline]
     #[must_use]
-    pub(crate) fn propagate_transform(&self, other: Transform2, propagation: Propagate) -> Self {
-        if propagation == Propagate::ALL {
+    pub(crate) fn propagate_transform(
+        &self,
+        other: Transform2,
+        propagation: PropagateTransform2,
+    ) -> Self {
+        if propagation == PropagateTransform2::ALL {
             Self(self.mul_transform(other))
         } else {
             Self(Transform2 {
-                translation: if propagation.inherits(Propagate::TRANSLATION) {
+                translation: if propagation.inherits(PropagateTransform2::TRANSLATION) {
                     self.mul_vec2(other.translation)
                 } else {
                     other.translation
                 },
-                depth: if propagation.inherits(Propagate::DEPTH) {
+                depth: if propagation.inherits(PropagateTransform2::DEPTH) {
                     self.depth() + other.depth
                 } else {
                     other.depth
                 },
-                rotation: if propagation.inherits(Propagate::ROTATION) {
+                rotation: if propagation.inherits(PropagateTransform2::ROTATION) {
                     self.rotation() + other.rotation
                 } else {
                     other.rotation
                 },
-                scale: if propagation.inherits(Propagate::SCALE) {
+                scale: if propagation.inherits(PropagateTransform2::SCALE) {
                     self.scale() * other.scale
                 } else {
                     other.scale
@@ -471,18 +475,18 @@ mod test {
     #[test]
     fn propagate() {
         for i in 1..=15 {
-            assert!(!Propagate::NOTHING.inherits(Propagate(i)));
+            assert!(!PropagateTransform2::NOTHING.inherits(PropagateTransform2(i)));
         }
 
         for i in 1..=15 {
-            assert!(Propagate::ALL.inherits(Propagate(i)));
+            assert!(PropagateTransform2::ALL.inherits(PropagateTransform2(i)));
         }
 
         for i in 1..=15 {
-            let p = Propagate(i);
+            let p = PropagateTransform2(i);
             assert!(p.inherits(p));
             for j in 1..=15 {
-                let q = Propagate(j & (!i));
+                let q = PropagateTransform2(j & (!i));
                 assert!(!p.inherits(q));
             }
         }

@@ -18,7 +18,7 @@ pub fn spawn(mut commands: Commands, asset_server: Res<AssetServer>) {
                 },
                 texture,
                 transform2: Transform2::from_xy(0., 32.),
-                propagate: Propagate::TRANSLATION,
+                propagate: PropagateTransform2::TRANSLATION,
                 ..Default::default()
             });
         });

@@ -22,7 +22,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             GlobalTransform::default(),
             Visibility::default(),
             ComputedVisibility::default(),
-            Propagate::ALL,
+            PropagateTransform2::ALL,
         ))
         .with_children(|builder| {
             builder.spawn_bundle((
@@ -37,7 +37,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 GlobalTransform::default(),
                 Visibility::default(),
                 ComputedVisibility::default(),
-                Propagate::ALL,
+                PropagateTransform2::ALL,
             ));
         });
 
