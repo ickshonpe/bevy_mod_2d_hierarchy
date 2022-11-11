@@ -19,8 +19,8 @@ pub mod prelude {
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemLabel)]
 pub enum Transform2dSystem {
     /// Propagates changes in transform to children's [`GlobalTransform`](crate::components::GlobalTransform)
-    PropagateTransform2,
-    DeriveGlobalTransform,
+    PropagateTransform2System,
+    DeriveGlobalTransformSystem,
 }
 
 /// The base plugin for handling [`Transform`] components
@@ -35,16 +35,16 @@ impl Plugin for Transform2dPlugin {
             .add_startup_system_to_stage(
                 StartupStage::PostStartup,
                 systems::transform_2d_propagate_system
-                    .label(Transform2dSystem::PropagateTransform2),
+                    .label(Transform2dSystem::PropagateTransform2System),
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,
                 systems::transform_2d_propagate_system
-                    .label(Transform2dSystem::PropagateTransform2),
+                    .label(Transform2dSystem::PropagateTransform2System),
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,
-                systems::derive_global_transform.label(Transform2dSystem::DeriveGlobalTransform),
+                systems::derive_global_transform.label(Transform2dSystem::DeriveGlobalTransformSystem),
             );
     }
 }
