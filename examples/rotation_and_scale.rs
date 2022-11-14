@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy::render::texture::ImageSettings;
 use bevy_mod_2d_hierarchy::prelude::*;
 use std::f32::consts::PI;
 
@@ -13,19 +12,19 @@ pub struct Red;
 pub struct White;
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn_bundle(Camera2dBundle::default());
+    commands.spawn(Camera2dBundle::default());
     let s = 64f32;
     let d = 3. * s * Vec2::X;
     let n = 7;
     let center_id = commands
-        .spawn_bundle(SpatialBundle2::default())
+        .spawn(SpatialBundle2::default())
         .insert(Center)
         .id();
     for i in 0..n {
         let angle = i as f32 * (n as f32).recip() * PI;
         let translation = Mat2::from_angle(angle) * d * (1. - 2. * (i % 2) as f32);
         let sprite_id = commands
-            .spawn_bundle(SpriteBundle2 {
+            .spawn(SpriteBundle2 {
                 sprite: Sprite {
                     color: Color::WHITE,
                     custom_size: Some(s * Vec2::ONE),
@@ -38,7 +37,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             .insert(White)
             .id();
         let red_sprite_id = commands
-            .spawn_bundle(SpriteBundle2 {
+            .spawn(SpriteBundle2 {
                 sprite: Sprite {
                     color: Color::RED,
                     custom_size: Some(s * Vec2::ONE),
@@ -64,17 +63,16 @@ fn update(
 ) {
     point_query.for_each_mut(|mut transform| {
         transform.rotate(0.3 * time.delta_seconds());
-        transform.scale = 1. + time.seconds_since_startup().sin() as f32;
+        transform.scale = 1. + time.elapsed_seconds().sin();
     });
     red_query.for_each_mut(|mut transform| {
-        transform.rotation = 0.2 * (2.5 * time.seconds_since_startup()).sin() as f32;
+        transform.rotation = 0.2 * (2.5 * time.elapsed_seconds()).sin();
     });
 }
 
 fn main() {
     App::new()
-        .insert_resource(ImageSettings::default_nearest())
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
         .add_plugin(Transform2dPlugin)
         .add_startup_system(setup)
         .add_system(update)

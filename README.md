@@ -12,14 +12,14 @@ Bevy plugin for more ergonomic 2D.
 * Control 2D transform propagation behaviour.
 * Performance similar to the 3D Transform. The propagation control has a cost, but some operations cheaper in 2D.
 * No quaternions.
-* Supports Bevy 0.8
+* Supports Bevy 0.9
 
 ## Usage
 
 Add the dependency to your `Cargo.toml`
 ```toml
 [dependencies]
-bevy_mod_2d_hierarchy = "0.2"
+bevy_mod_2d_hierarchy = "0.3"
 ```
 
 Add the plugin to your Bevy App:
@@ -43,14 +43,14 @@ pub fn spawn(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
-    commands.spawn_bundle(Camera2dBundle2::default());
-    commands.spawn_bundle(SpriteBundle2 {
+    commands.spawn(Camera2dBundle2::default());
+    commands.spawn(SpriteBundle2 {
         texture: asset_server.load("sprite.png"),
         transform2: Transform2::from_rotation(0.5 * std::f32::consts::PI).with_scale(3.),
         ..Default::default()
     })
     .with_children(|builder| {
-        builder.spawn_bundle(SpriteBundle2 {
+        builder.spawn(SpriteBundle2 {
             sprite: Sprite { color: Color::YELLOW, ..Default::default() },
             texture: asset_server.load("sprite.png"),
             transform2: Transform2::from_xy(0., 32.),

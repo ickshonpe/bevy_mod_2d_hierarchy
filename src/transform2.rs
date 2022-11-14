@@ -173,16 +173,16 @@ impl Transform2 {
     }
 
     #[inline]
-    pub fn mul_vec2(&self, mut value: Vec2) -> Vec2 {
-        value = self.rotation_scale_matrix() * value;
-        value += self.translation;
-        value
+    pub fn transform_point(&self, mut point: Vec2) -> Vec2 {
+        point = self.rotation_scale_matrix() * point;
+        point += self.translation;
+        point
     }
 
     #[inline]
     #[must_use]
     pub fn mul_transform(&self, other: Self) -> Self {
-        let translation = self.mul_vec2(other.translation);
+        let translation = self.transform_point(other.translation);
         let depth = self.depth + other.depth;
         let rotation = self.rotation + other.rotation;
         let scale = self.scale * other.scale;
@@ -347,7 +347,7 @@ impl GlobalTransform2 {
     #[must_use]
     #[inline]
     pub fn mul_vec2(&self, value: Vec2) -> Vec2 {
-        self.0.mul_vec2(value)
+        self.0.transform_point(value)
     }
 
     #[inline]
@@ -441,8 +441,8 @@ mod test {
         let e = 0.001;
 
         for &v in &vs {
-            let a = transform2.mul_vec2(v);
-            let b = transform.mul_vec3(v.extend(0.0));
+            let a = transform2.transform_point(v);
+            let b = transform.transform_point(v.extend(0.0));
             assert!((a.x - b.x).abs() < e);
             assert!((a.y - b.y).abs() < e);
         }
@@ -451,8 +451,8 @@ mod test {
         let g = transform.mul_transform(transform);
 
         for &v in &vs {
-            let a = f.mul_vec2(v);
-            let b = g.mul_vec3(v.extend(0.0));
+            let a = f.transform_point(v);
+            let b = g.transform_point(v.extend(0.0));
             assert!((a.x - b.x).abs() < e);
             assert!((a.y - b.y).abs() < e);
         }
@@ -465,8 +465,8 @@ mod test {
         println!("aff3: {:#?}", j.affine());
 
         for &v in &vs {
-            let a = i.mul_vec3(v.extend(0.0));
-            let b = j.mul_vec3(v.extend(0.0));
+            let a = i.transform_point(v.extend(0.0));
+            let b = j.transform_point(v.extend(0.0));
             assert!((a.x - b.x).abs() < e);
             assert!((a.y - b.y).abs() < e);
         }

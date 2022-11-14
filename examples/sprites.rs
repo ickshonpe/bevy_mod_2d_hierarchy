@@ -6,7 +6,7 @@ use bevy::prelude::*;
 use bevy_mod_2d_hierarchy::prelude::*;
 
 pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn_bundle(Camera2dBundle2::default());
+    commands.spawn(Camera2dBundle2::default());
     let image_handle: Handle<Image> = asset_server.load("arrow.png");
     let sprite = Sprite {
         custom_size: Some(vec2(30.0, 40.0)),
@@ -14,7 +14,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         ..Default::default()
     };
     commands
-        .spawn_bundle((
+        .spawn((
             sprite.clone(),
             Transform2::from_xy(-100., 0.),
             image_handle.clone(),
@@ -25,7 +25,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             PropagateTransform2::ALL,
         ))
         .with_children(|builder| {
-            builder.spawn_bundle((
+            builder.spawn((
                 sprite.clone(),
                 Transform2 {
                     rotation: PI / 4.,
@@ -42,14 +42,14 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         });
 
     commands
-        .spawn_bundle(SpriteBundle {
+        .spawn(SpriteBundle {
             sprite: sprite.clone(),
             transform: Transform::from_xyz(100., 0., 0.),
             texture: image_handle.clone(),
             ..Default::default()
         })
         .with_children(|builder| {
-            builder.spawn_bundle(SpriteBundle {
+            builder.spawn(SpriteBundle {
                 sprite: sprite.clone(),
                 transform: Transform {
                     rotation: Quat::from_rotation_z(PI / 4.),

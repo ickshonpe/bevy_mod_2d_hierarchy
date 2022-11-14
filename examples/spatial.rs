@@ -2,13 +2,13 @@ use bevy::prelude::*;
 use bevy_mod_2d_hierarchy::prelude::*;
 
 pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn_bundle(Camera2dBundle2::default());
+    commands.spawn(Camera2dBundle2::default());
     let image_handle: Handle<Image> = asset_server.load("sprite.png");
 
-    let parent = commands.spawn_bundle(SpatialBundle2::default()).id();
+    let parent = commands.spawn(SpatialBundle2::default()).id();
 
     let a = commands
-        .spawn_bundle(SpriteBundle2 {
+        .spawn(SpriteBundle2 {
             sprite: Sprite {
                 color: Color::WHITE,
                 ..Default::default()
@@ -20,7 +20,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .id();
 
     let b = commands
-        .spawn_bundle(SpriteBundle2 {
+        .spawn(SpriteBundle2 {
             sprite: Sprite {
                 color: Color::RED,
                 ..Default::default()
@@ -32,7 +32,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .id();
 
     let c = commands
-        .spawn_bundle(SpriteBundle2 {
+        .spawn(SpriteBundle2 {
             sprite: Sprite {
                 color: Color::BLUE,
                 ..Default::default()

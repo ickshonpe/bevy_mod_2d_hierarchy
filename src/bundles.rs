@@ -23,7 +23,7 @@ impl TransformBundle2 {
     pub const IDENTITY: Self = TransformBundle2 {
         transform_2d: Transform2::IDENTITY,
         global_transform_2d: GlobalTransform2::IDENTITY,
-        global_transform: GlobalTransform::identity(),
+        global_transform: GlobalTransform::IDENTITY,
         propagate: PropagateTransform2::ALL,
     };
 
@@ -60,9 +60,9 @@ impl SpatialBundle2 {
         Self {
             transform2,
             global_transform2: GlobalTransform2::IDENTITY,
-            global_transform: GlobalTransform::identity(),
+            global_transform: GlobalTransform::IDENTITY,
             visibility: Visibility { is_visible: true },
-            computed_visibility: ComputedVisibility::not_visible(),
+            computed_visibility: ComputedVisibility::INVISIBLE,
             propagate: PropagateTransform2::ALL,
         }
     }
