@@ -63,15 +63,8 @@ pub fn spawn(
 
 ## Notes
 
-See also https://github.com/devil-ira/bevy_mod_transform2d
+See also: https://github.com/devil-ira/bevy_mod_transform2d.
 
-bevy_mod_transform2d has better compatibility, you can use the existing sprite and text bundles and it works with Rapier2d. You can also include 2d and 3d transforms in the same hierarchy. 
-
-bevy_mod_2d_hierarchy main advantages are that is has maybe marginally better performance (you won't notice the difference), no synchronisation worries, and transform propagation control.
-
-At the moment it doesn't seem possible to combine both sets of features in a third-party plugin.
-
-Other minor differences are that bevy_mod_transform2d has seperate values for x and y scaling, and stores z depths in a seperate component. 
 
 
 
