@@ -11,7 +11,7 @@ use bevy::text::Text2dSize;
 /// 2d transform components
 #[derive(Bundle, Clone, Debug, Default)]
 pub struct TransformBundle2 {
-    pub transform_2d: Transform2,
+    pub transform2: Transform2,
     pub global_transform_2d: GlobalTransform2,
     /// not required but probably going to want to extract for rendering
     /// the derive_global_transform system is inexpensive
@@ -21,7 +21,7 @@ pub struct TransformBundle2 {
 
 impl TransformBundle2 {
     pub const IDENTITY: Self = TransformBundle2 {
-        transform_2d: Transform2::IDENTITY,
+        transform2: Transform2::IDENTITY,
         global_transform_2d: GlobalTransform2::IDENTITY,
         global_transform: GlobalTransform::IDENTITY,
         propagate: PropagateTransform2::ALL,
@@ -30,7 +30,7 @@ impl TransformBundle2 {
     #[inline]
     pub const fn from_transform(transform: Transform2) -> Self {
         TransformBundle2 {
-            transform_2d: transform,
+            transform2: transform,
             ..Self::IDENTITY
         }
     }
