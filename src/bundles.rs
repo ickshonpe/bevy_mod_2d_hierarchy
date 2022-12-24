@@ -168,7 +168,7 @@ impl Camera2dBundle2 {
             frustum: cb1.frustum,
             camera: cb1.camera,
             camera_2d: cb1.camera_2d,
-            transform2: Default::default(),
+            transform2: Transform2::from_xyz(0., 0., far - 0.1),
             global_transform: Default::default(),
             global_transform2: Default::default(),
             propagate: Default::default(),
