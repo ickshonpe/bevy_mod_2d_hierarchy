@@ -44,7 +44,8 @@ impl Plugin for Transform2dPlugin {
             )
             .add_system_to_stage(
                 CoreStage::PostUpdate,
-                systems::derive_global_transform.label(Transform2dSystem::DeriveGlobalTransformSystem),
+                systems::derive_global_transform
+                    .label(Transform2dSystem::DeriveGlobalTransformSystem),
             );
     }
 }

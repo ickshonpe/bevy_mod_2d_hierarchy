@@ -39,15 +39,13 @@ pub fn update_2(time: Res<Time>, mut query: Query<&mut Transform2, With<Parent>>
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(
-            WindowPlugin { 
-                window: WindowDescriptor {
-                    present_mode: bevy::window::PresentMode::Immediate,
-                    ..Default::default()
-                }, 
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            window: WindowDescriptor {
+                present_mode: bevy::window::PresentMode::Immediate,
                 ..Default::default()
-            }
-        ))
+            },
+            ..Default::default()
+        }))
         .add_plugin(Transform2dPlugin)
         .add_plugin(LogDiagnosticsPlugin::default())
         .add_plugin(FrameTimeDiagnosticsPlugin::default())
